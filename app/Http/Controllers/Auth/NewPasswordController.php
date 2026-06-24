@@ -19,9 +19,14 @@ class NewPasswordController extends Controller
     /**
      * Display the password reset view.
      */
+    public function verifyOtp(Request $request): View
+    {
+        return view('pages.auth.verify-otp', ['title' => 'Reset Password']);
+    }
+    
     public function create(Request $request): View
     {
-        return view('auth.reset-password', ['request' => $request]);
+        return view('pages.auth.confirm-password', ['title' => 'Comfirm Password']);
     }
 
     /**
