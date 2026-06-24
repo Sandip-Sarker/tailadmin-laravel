@@ -18,7 +18,7 @@
 
                             {{-- Form --}}
                             <div class="px-6 pb-8 sm:px-8">
-                                <form method="POST" action="{{ route('login') }}">
+                                <form method="POST" action="{{ route('send.otp') }}">
                                     @csrf
                                     <div class="space-y-5">
                                         <!-- Email -->
