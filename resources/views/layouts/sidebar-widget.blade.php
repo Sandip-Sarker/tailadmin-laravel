@@ -5,7 +5,7 @@
     <p class="mb-4 text-gray-500 text-theme-sm dark:text-gray-400">
         Sign out from your account securely and return to the login screen.
     </p>
-    <form method="POST" action="">
+    <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit" class="w-full rounded-lg bg-brand-500 px-3 py-3 text-theme-sm font-medium text-white hover:bg-brand-600">
             Logout

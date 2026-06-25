@@ -10,7 +10,8 @@ class MenuHelper
             [
                 'icon' => 'dashboard',
                 'name' => 'Dashboard',
-                'path' => '/'
+                'route' => 'dashboard',
+                'path' => 'dashboard'
             ],
             // [
             //     'icon' => 'calendar',
@@ -19,8 +20,9 @@ class MenuHelper
             // ],
             [
                 'icon' => 'user-profile',
-                'name' => 'User Profile',
-                'path' => '/profile',
+                'name' => 'Users',
+                'route' => 'users',
+                'path' => 'users'
             ],
             // [
             //     'name' => 'Forms',
