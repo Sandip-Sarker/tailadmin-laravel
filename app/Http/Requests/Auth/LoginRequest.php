@@ -50,6 +50,16 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+         $user = Auth::user();
+
+        if ($user->role !== 'Admin') {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'You do not have permission to access this area.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

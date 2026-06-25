@@ -34,14 +34,6 @@
             'price' => '$1699.00',
             'status' => 'Canceled',
         ],
-        [
-            'name' => 'Airpods Pro 2nd Gen',
-            'variants' => 1,
-            'image' => '/images/product/product-05.jpg',
-            'category' => 'Accessories',
-            'price' => '$240.00',
-            'status' => 'Delivered',
-        ],
     ];
     
     $productsList = !empty($products) ? $products : $defaultProducts;

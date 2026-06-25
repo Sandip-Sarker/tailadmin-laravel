@@ -2,7 +2,7 @@
 
 @section('content')
 {{-- @dd('hello') --}}
-  <div class="grid grid-cols-12 gap-4 md:gap-6">
+  {{-- <div class="grid grid-cols-12 gap-4 md:gap-6">
     <div class="col-span-12 space-y-6 xl:col-span-7">
       <x-ecommerce.ecommerce-metrics />
       <x-ecommerce.monthly-sale />
@@ -22,5 +22,24 @@
     <div class="col-span-12 xl:col-span-7">
       <x-ecommerce.recent-orders />
     </div>
+  </div> --}}
+
+  <div class="grid grid-cols-12 gap-4 md:gap-6">
+    <div class="col-span-12 space-y-6">
+      <x-ecommerce.ecommerce-metrics />
+    </div>
+{{-- 
+    <div class="col-span-12">
+        <x-ecommerce.monthly-sale />
+    </div>
+    
+    <div class="col-span-12 lg:col-span-6">
+        <x-ecommerce.recent-orders />
+    </div>
+
+    <div class="col-span-12 lg:col-span-6">
+        <x-ecommerce.statistics-chart />
+    </div> --}}
   </div>
+
 @endsection

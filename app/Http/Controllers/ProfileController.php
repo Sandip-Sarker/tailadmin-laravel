@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,20 +22,51 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
+    /** 
      * Update the user's profile information.
+     * Uses Helper::fileUploadStorage() to store images and
+     * Helper::storageDeleteFile() to remove the old ones.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            // Delete the old avatar from storage (public disk)
+            Helper::storageDeleteFile($user->avatar);
+
+            // Store the new avatar using the helper
+            $user->avatar = Helper::fileUploadStorage(
+                $request->file('avatar'),
+                'avatars',
+                $user->name
+            );
         }
 
-        $request->user()->save();
+        // Handle thumbnail (thi) upload
+        if ($request->hasFile('thi')) {
+            // Delete the old thi image from storage (public disk)
+            Helper::storageDeleteFile($user->thi);
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+            // Store the new thi image using the helper
+            $user->thi = Helper::fileUploadStorage(
+                $request->file('thi'),
+                'thumbnails',
+                $user->name
+            );
+        }
+
+        // Update name and email
+        $user->fill($request->only('name', 'email'));
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
+
+        return Redirect::back()->with('status', 'profile-updated');
     }
 
     /**
