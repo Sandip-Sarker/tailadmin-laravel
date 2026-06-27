@@ -20,10 +20,8 @@ Route::get('/calendar', function () {
     return view('pages.calender', ['title' => 'Calendar']);
 })->name('calendar');
 
-// profile pages
-Route::get('/profile', function () {
-    return view('pages.profile', ['title' => 'Profile']);
-})->name('profile');
+// profile pages  (uses ProfileController so session status & errors are available)
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
 // form pages
 Route::get('/form-elements', function () {

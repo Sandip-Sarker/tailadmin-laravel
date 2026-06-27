@@ -13,8 +13,16 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Show the profile page with tabs.
      */
+    public function index(Request $request): View
+    {
+        return view('pages.profile', [
+            'user'  => $request->user(),
+            'title' => 'Profile',
+        ]);
+    }
+
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -22,11 +30,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    /** 
-     * Update the user's profile information.
-     * Uses Helper::fileUploadStorage() to store images and
-     * Helper::storageDeleteFile() to remove the old ones.
-     */
+ 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
@@ -69,9 +73,6 @@ class ProfileController extends Controller
         return Redirect::back()->with('status', 'profile-updated');
     }
 
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [
