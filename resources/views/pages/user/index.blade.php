@@ -66,7 +66,7 @@
                                     accept="image/*"
                                     class="dropify"
                                     data-height="150"
-                                    data-max-file-size="150"
+                                    data-max-file-size="1024k"
                                     data-allowed-file-extensions="jpg jpeg png gif webp"
                                     data-show-remove="true"
                                 />
@@ -171,7 +171,7 @@
                                     accept="image/*"
                                     class="dropify"
                                     data-height="150"
-                                    data-max-file-size="150"
+                                    data-max-file-size="2M"
                                     data-allowed-file-extensions="jpg jpeg png gif webp"
                                     data-show-remove="true"
                                 />
@@ -248,10 +248,12 @@
             $('body').css('overflow', 'hidden');
 
             if (typeof $.fn.dropify !== 'undefined') {
-                var drEvent = $('#create_avatar').dropify();
-                drEvent = drEvent.data('dropify');
-                drEvent.resetPreview();
-                drEvent.clearElement();
+                var input = $('#create_avatar');
+                var drEvent = input.data('dropify');
+                if (drEvent) {
+                    drEvent.destroy();
+                }
+                input.dropify();
             }
         });
 
@@ -279,13 +281,13 @@
             $('body').css('overflow', 'hidden');
 
             if (typeof $.fn.dropify !== 'undefined') {
-                var drEvent = $('#edit_avatar').dropify();
-                drEvent = drEvent.data('dropify');
-                drEvent.resetPreview();
-                drEvent.clearElement();
-                drEvent.settings.defaultFile = avatarUrl;
-                drEvent.destroy();
-                drEvent.init();
+                var input = $('#edit_avatar');
+                var drEvent = input.data('dropify');
+                if (drEvent) {
+                    drEvent.destroy();
+                }
+                input.attr('data-default-file', avatarUrl);
+                input.dropify();
             }
         });
 
