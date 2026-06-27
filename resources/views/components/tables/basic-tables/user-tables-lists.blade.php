@@ -6,50 +6,60 @@
     <div class="flex flex-col gap-3 px-5 mb-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">All Users</h3>
 
-        <form method="GET" action="{{ route('users') }}" class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div class="flex flex-wrap items-center gap-3">
+            <form method="GET" action="{{ route('users.index') }}" class="flex flex-col gap-3 sm:flex-row sm:items-center">
 
-            {{-- Search input --}}
-            <div class="relative">
-                <button type="submit" class="absolute -translate-y-1/2 left-4 top-1/2">
-                    <svg class="fill-gray-500 dark:fill-gray-400" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M3.04199 9.37381C3.04199 5.87712 5.87735 3.04218 9.37533 3.04218C12.8733 3.04218 15.7087 5.87712 15.7087 9.37381C15.7087 12.8705 12.8733 15.7055 9.37533 15.7055C5.87735 15.7055 3.04199 12.8705 3.04199 9.37381ZM9.37533 1.54218C5.04926 1.54218 1.54199 5.04835 1.54199 9.37381C1.54199 13.6993 5.04926 17.2055 9.37533 17.2055C11.2676 17.2055 13.0032 16.5346 14.3572 15.4178L17.1773 18.2381C17.4702 18.531 17.945 18.5311 18.2379 18.2382C18.5308 17.9453 18.5309 17.4704 18.238 17.1775L15.4182 14.3575C16.5367 13.0035 17.2087 11.2671 17.2087 9.37381C17.2087 5.04835 13.7014 1.54218 9.37533 1.54218Z"
-                            fill="" />
-                    </svg>
-                </button>
-                <input
-                    type="text"
-                    name="search"
-                    value="{{ $search }}"
-                    placeholder="Search name, email, role…"
-                    class="h-[42px] w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pl-[42px] pr-4 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-blue-800 xl:w-[300px]"
-                />
-            </div>
+                {{-- Search input --}}
+                <div class="relative">
+                    <button type="submit" class="absolute -translate-y-1/2 left-4 top-1/2">
+                        <svg class="fill-gray-500 dark:fill-gray-400" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M3.04199 9.37381C3.04199 5.87712 5.87735 3.04218 9.37533 3.04218C12.8733 3.04218 15.7087 5.87712 15.7087 9.37381C15.7087 12.8705 12.8733 15.7055 9.37533 15.7055C5.87735 15.7055 3.04199 12.8705 3.04199 9.37381ZM9.37533 1.54218C5.04926 1.54218 1.54199 5.04835 1.54199 9.37381C1.54199 13.6993 5.04926 17.2055 9.37533 17.2055C11.2676 17.2055 13.0032 16.5346 14.3572 15.4178L17.1773 18.2381C17.4702 18.531 17.945 18.5311 18.2379 18.2382C18.5308 17.9453 18.5309 17.4704 18.238 17.1775L15.4182 14.3575C16.5367 13.0035 17.2087 11.2671 17.2087 9.37381C17.2087 5.04835 13.7014 1.54218 9.37533 1.54218Z"
+                                fill="" />
+                        </svg>
+                    </button>
+                    <input
+                        type="text"
+                        name="search"
+                        value="{{ $search }}"
+                        placeholder="Search name, email, role…"
+                        class="h-[42px] w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pl-[42px] pr-4 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-blue-800 xl:w-[300px]"
+                    />
+                </div>
 
-            {{-- Per-page --}}
-            <select
-                name="per_page"
-                onchange="this.form.submit()"
-                class="h-[42px] rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 shadow-theme-xs focus:border-blue-300 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
-            >
-                @foreach ([5, 10, 25, 50] as $option)
-                    <option value="{{ $option }}" @selected($perPage == $option)>{{ $option }} / page</option>
-                @endforeach
-            </select>
+                {{-- Per-page --}}
+                <select
+                    name="per_page"
+                    onchange="this.form.submit()"
+                    class="h-[42px] rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 shadow-theme-xs focus:border-blue-300 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300"
+                >
+                    @foreach ([5, 10, 25, 50] as $option)
+                        <option value="{{ $option }}" @selected($perPage == $option)>{{ $option }} / page</option>
+                    @endforeach
+                </select>
 
-            {{-- Clear button (only when searching) --}}
-            @if($search)
-                <a href="{{ route('users') }}"
-                    class="h-[42px] flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-3 text-sm font-medium text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-white/[0.05]">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    Clear
-                </a>
-            @endif
+                {{-- Clear button (only when searching) --}}
+                @if($search)
+                    <a href="{{ route('users.index') }}"
+                        class="h-[42px] flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-3 text-sm font-medium text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-white/[0.05]">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Clear
+                    </a>
+                @endif
 
-        </form>
+            </form>
+
+            <button type="button"
+                class="open-create-modal-btn shadow-theme-xs flex h-[42px] items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600">
+                <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8.00016 3.33334V12.6667M3.3335 8.00001H12.6668" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Add User
+            </button>
+        </div>
     </div>
 
     <!-- Table -->
@@ -130,33 +140,32 @@
                                             <circle cx="12" cy="12" r="3"/>
                                         </svg>
                                     </a>
-
                                     {{-- Edit --}}
-                                    <a href="#" title="Edit"
-                                        class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-yellow-500 bg-yellow-50 hover:bg-yellow-100 dark:bg-yellow-500/10 dark:hover:bg-yellow-500/20 transition-colors">
+                                    <button type="button" title="Edit" class="open-edit-modal-btn inline-flex items-center justify-center w-8 h-8 rounded-lg text-yellow-500 bg-yellow-50 hover:bg-yellow-100 dark:bg-yellow-500/10 dark:hover:bg-yellow-500/20 transition-colors" data-user="{{ json_encode($user) }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
                                         </svg>
-                                    </a>
+                                    </button>
 
                                     {{-- Delete --}}
-                                    <form method="POST" action="#" onsubmit="return confirm('Are you sure you want to delete this user?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" title="Delete"
-                                            class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-red-500 bg-red-50 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 transition-colors">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="3 6 5 6 21 6"/>
-                                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-                                                <path d="M10 11v6"/>
-                                                <path d="M14 11v6"/>
-                                                <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
-                                            </svg>
-                                        </button>
-                                    </form>
+                                    @if(auth()->id() !== $user->id)
+                                        <form method="POST" action="{{ route('users.destroy', $user->id) }}" class="confirm-delete-form">
+                                            @csrf
+                                            <button type="submit" title="Delete"
+                                                class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-red-500 bg-red-50 hover:bg-red-100 dark:bg-red-500/10 dark:hover:bg-red-500/20 transition-colors">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="3 6 5 6 21 6"/>
+                                                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                                                    <path d="M10 11v6"/>
+                                                    <path d="M14 11v6"/>
+                                                    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
 
                                 </div>
                         </tr>
@@ -255,5 +264,4 @@
             </div>
         </div>
     @endif
-
 </div>

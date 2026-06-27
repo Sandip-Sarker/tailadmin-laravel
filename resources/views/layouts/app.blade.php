@@ -94,6 +94,9 @@
         })();
     </script>
     
+    <!-- Toastify CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    
 </head>
 
 <body
@@ -140,8 +143,77 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <!-- Dropify JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+<!-- Toastify JS -->
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function() {
+        @if(session('success'))
+            Toastify({
+                text: "{{ session('success') }}",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                style: {
+                    background: "#22c55e",
+                }
+            }).showToast();
+        @endif
+
+        @if(session('deleted'))
+            Swal.fire({
+                title: 'Deleted!',
+                text: "{{ session('deleted') }}",
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                customClass: {
+                    popup: 'dark:bg-gray-900 dark:text-white',
+                    title: 'dark:text-white',
+                    htmlContainer: 'dark:text-gray-300'
+                }
+            });
+        @endif
+
+        @if(session('error'))
+            Toastify({
+                text: "{{ session('error') }}",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                style: {
+                    background: "#f43f5e",
+                }
+            }).showToast();
+        @endif
+
+        // Global SweetAlert2 delete confirmation
+        $(document).on('submit', '.confirm-delete-form', function(e) {
+            e.preventDefault();
+            var form = this;
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                customClass: {
+                    popup: 'dark:bg-gray-900 dark:text-white',
+                    title: 'dark:text-white',
+                    htmlContainer: 'dark:text-gray-300'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
 
 @stack('scripts')
-
 
 </html>
