@@ -77,23 +77,6 @@
                                 <h5 class="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
                                     Profile Image
                                 </h5>
-                                {{-- <div>
-                                    <input
-                                        id="profile_avatar"
-                                        name="avatar"
-                                        type="file"
-                                        accept="image/*"
-                                        class="dropify"
-                                        data-height="150"
-                                        data-default-file="{{ Auth::user()?->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/user/owner.jpg') }}"
-                                        data-max-file-size="2M"
-                                        data-allowed-file-extensions="jpg jpeg png gif webp"
-                                        data-show-remove="true"
-                                    />
-                                    @error('avatar')
-                                        <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div> --}}
 
                                 <div class="col-span-2 lg:col-span-1">
                                         <label for="profile_avatar" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">

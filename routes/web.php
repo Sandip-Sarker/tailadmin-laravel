@@ -15,11 +15,6 @@ Route::middleware('auth')->group(function () {
 
 
 
-// calender pages
-Route::get('/calendar', function () {
-    return view('pages.calender', ['title' => 'Calendar']);
-})->name('calendar');
-
 // profile pages  (uses ProfileController so session status & errors are available)
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
@@ -33,11 +28,6 @@ Route::get('/basic-tables', function () {
     return view('pages.tables.basic-tables', ['title' => 'Basic Tables']);
 })->name('basic-tables');
 
-// pages
-
-Route::get('/blank', function () {
-    return view('pages.blank', ['title' => 'Blank']);
-})->name('blank');
 
 // error pages
 Route::get('/error-404', function () {
