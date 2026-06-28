@@ -151,29 +151,22 @@
                                                 @foreach ($item['subItems'] as $subItem)
                                                     <li>
                                                         <a href="{{ $subItem['path'] }}" class="menu-dropdown-item"
-                                                            :class="isActive('{{ $subItem['path'] }}') ?
-                                                                'menu-dropdown-item-active' :
-                                                                'menu-dropdown-item-inactive'">
-                                                            {{ $subItem['name'] }}
-                                                            <span class="flex items-center gap-1 ml-auto">
-                                                                @if (!empty($subItem['new']))
-                                                                    <span
-                                                                        :class="isActive('{{ $subItem['path'] }}') ?
-                                                                            'menu-dropdown-badge menu-dropdown-badge-active' :
-                                                                            'menu-dropdown-badge menu-dropdown-badge-inactive'">
-                                                                        new
-                                                                    </span>
-                                                                @endif
-                                                                @if (!empty($subItem['pro']))
-                                                                    <span
-                                                                        :class="isActive('{{ $subItem['path'] }}') ?
-                                                                            'menu-dropdown-badge-pro menu-dropdown-badge-pro-active' :
-                                                                            'menu-dropdown-badge-pro menu-dropdown-badge-pro-inactive'">
-                                                                        pro
-                                                                    </span>
-                                                                @endif
+                                                        :class="isActive('{{ $subItem['path'] }}')
+                                                            ? 'menu-dropdown-item-active'
+                                                            : 'menu-dropdown-item-inactive'">
+
+                                                        @if(!empty($subItem['icon']))
+                                                            <span
+                                                                :class="isActive('{{ $subItem['path'] }}')
+                                                                    ? 'menu-item-icon-active'
+                                                                    : 'menu-item-icon-inactive'">
+                                                                {!! MenuHelper::getIconSvg($subItem['icon']) !!}
                                                             </span>
-                                                        </a>
+                                                        @endif
+
+                                                        <span>{{ $subItem['name'] }}</span>
+
+                                                        <span class="flex items-center gap-1 ml-auto">
                                                     </li>
                                                 @endforeach
                                             </ul>
@@ -219,20 +212,20 @@
         </nav>
 
         <!-- Sidebar Widget -->
-       <div class="mx-auto mt-auto mb-10 w-full max-w-60 rounded-2xl bg-gray-50 px-4 py-5 text-center dark:bg-white/[0.03]">
-    <h3 class="mb-2 font-semibold text-gray-900 dark:text-white">
-        Logout
-    </h3>
-    <p class="mb-4 text-gray-500 text-theme-sm dark:text-gray-400">
-        Sign out from your account securely and return to the login screen.
-    </p>
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit" class="w-full rounded-lg bg-brand-500 px-3 py-3 text-theme-sm font-medium text-white hover:bg-brand-600">
-            Logout
-        </button>
-    </form>
-</div>
+        <div class="mx-auto mt-auto mb-10 w-full max-w-60 rounded-2xl bg-gray-50 px-4 py-5 text-center dark:bg-white/[0.03]">
+            <h3 class="mb-2 font-semibold text-gray-900 dark:text-white">
+                Logout
+            </h3>
+            <p class="mb-4 text-gray-500 text-theme-sm dark:text-gray-400">
+                Sign out from your account securely and return to the login screen.
+            </p>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full rounded-lg bg-brand-500 px-3 py-3 text-theme-sm font-medium text-white hover:bg-brand-600">
+                    Logout
+                </button>
+            </form>
+        </div>
 
 
     </div>
