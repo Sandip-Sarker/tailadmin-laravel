@@ -11,19 +11,7 @@
     @include('layouts.style')
 </head>
 
-<body
-    x-data="{ 'loaded': true}"
-    x-init="$store.sidebar.isExpanded = window.innerWidth >= 1280;
-    const checkMobile = () => {
-        if (window.innerWidth < 1280) {
-            $store.sidebar.setMobileOpen(false);
-            $store.sidebar.isExpanded = false;
-        } else {
-            $store.sidebar.isMobileOpen = false;
-            $store.sidebar.isExpanded = true;
-        }
-    };
-    window.addEventListener('resize', checkMobile);">
+<body x-data="{ 'loaded': true}">
 
     {{-- preloader --}}
     <x-common.preloader/>
@@ -33,12 +21,7 @@
         @include('layouts.backdrop')
         @include('layouts.sidebar')
 
-        <div class="flex-1 transition-all duration-300 ease-in-out"
-            :class="{
-                'xl:ml-[290px]': $store.sidebar.isExpanded || $store.sidebar.isHovered,
-                'xl:ml-[90px]': !$store.sidebar.isExpanded && !$store.sidebar.isHovered,
-                'ml-0': $store.sidebar.isMobileOpen
-            }">
+        <div id="main-content" class="flex-1 transition-all duration-300 ease-in-out xl:ml-[290px]">
             <!-- app header start -->
             @include('layouts.app-header')
             <!-- app header end -->

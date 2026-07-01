@@ -136,23 +136,33 @@
 
             toggleExpanded() {
                 this.isExpanded = !this.isExpanded;
-                // When toggling desktop sidebar, ensure mobile menu is closed
                 this.isMobileOpen = false;
+                if (typeof window.applySidebarState === 'function') {
+                    window.applySidebarState(this.isExpanded, this.isMobileOpen, this.isHovered);
+                }
             },
 
             toggleMobileOpen() {
                 this.isMobileOpen = !this.isMobileOpen;
-                // Don't modify isExpanded when toggling mobile menu
+                if (typeof window.applySidebarState === 'function') {
+                    window.applySidebarState(this.isExpanded, this.isMobileOpen, this.isHovered);
+                }
             },
 
             setMobileOpen(val) {
                 this.isMobileOpen = val;
+                if (typeof window.applySidebarState === 'function') {
+                    window.applySidebarState(this.isExpanded, this.isMobileOpen, this.isHovered);
+                }
             },
 
             setHovered(val) {
                 // Only allow hover effects on desktop when sidebar is collapsed
                 if (window.innerWidth >= 1280 && !this.isExpanded) {
                     this.isHovered = val;
+                    if (typeof window.applySidebarState === 'function') {
+                        window.applySidebarState(this.isExpanded, this.isMobileOpen, this.isHovered);
+                    }
                 }
             }
         });

@@ -21,7 +21,7 @@ class MenuHelper
             [
                 'icon' => 'user-profile',
                 'name' => 'Users',
-                'route' => 'users',
+                'route' => 'users.index',
                 'path' => 'users'
             ],
             // [
@@ -86,6 +86,19 @@ class MenuHelper
     public static function isActive($path)
     {
         return request()->is(ltrim($path, '/'));
+    }
+
+    public static function isSubmenuActive($item)
+    {
+        if (!isset($item['subItems'])) {
+            return false;
+        }
+        foreach ($item['subItems'] as $subItem) {
+            if (self::isActive($subItem['path'])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static function getIconSvg($iconName)
