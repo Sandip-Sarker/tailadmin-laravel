@@ -24,6 +24,13 @@ class MenuHelper
                 'route' => 'users.index',
                 'path' => 'users'
             ],
+             [
+                'name' => 'Settings',
+                'icon' => 'settings',
+                'subItems' => [
+                    ['name' => 'Page Setting', 'path' => '/page-setting', 'icon' => 'pages', 'pro' => false],
+                ],
+            ],
             // [
             //     'name' => 'Forms',
             //     'icon' => 'forms',
@@ -68,21 +75,7 @@ class MenuHelper
             ],
         ];
     }
-
-    public static function getMenuGroups()
-    {
-        return [
-            [
-                'title' => 'Menu',
-                'items' => self::getMainNavItems()
-            ],
-            [
-                'title' => 'Others',
-                'items' => self::getOthersItems()
-            ]
-        ];
-    }
-
+    
     public static function isActive($path)
     {
         return request()->is(ltrim($path, '/'));

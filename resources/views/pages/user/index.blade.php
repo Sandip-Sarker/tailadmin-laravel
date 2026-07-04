@@ -18,55 +18,6 @@
     <script>
         $(document).ready(function() {
             
-            // Open Create Modal
-            $(document).on('click', '.open-create-modal-btn', function() {
-                $('#createUserModal').removeClass('hidden').addClass('flex');
-                $('body').css('overflow', 'hidden');
-
-                if (typeof $.fn.dropify !== 'undefined') {
-                    var input = $('#create_avatar');
-                    var drEvent = input.data('dropify');
-                    if (drEvent) {
-                        drEvent.destroy();
-                    }
-                    input.dropify();
-                }
-            });
-
-            // Close Modals
-            $(document).on('click', '.close-modal-trigger', function() {
-                $('#createUserModal').addClass('hidden').removeClass('flex');
-                $('#editUserModal').addClass('hidden').removeClass('flex');
-                $('body').css('overflow', 'unset');
-            });
-
-            // Open Edit Modal
-            $(document).on('click', '.open-edit-modal-btn', function() {
-                var user = $(this).data('user');
-
-                $('#edit_name').val(user.name);
-                $('#edit_email').val(user.email);
-                $('#edit_role').val(user.role || 'User');
-
-                var actionUrl = "{{ route('users.index') }}/" + user.id + "/update";
-                $('#editUserForm').attr('action', actionUrl);
-
-                var avatarUrl = user.avatar ? '{{ asset('storage') }}/' + user.avatar : '{{ asset('images/user/owner.jpg') }}';
-
-                $('#editUserModal').removeClass('hidden').addClass('flex');
-                $('body').css('overflow', 'hidden');
-
-                if (typeof $.fn.dropify !== 'undefined') {
-                    var input = $('#edit_avatar');
-                    var drEvent = input.data('dropify');
-                    if (drEvent) {
-                        drEvent.destroy();
-                    }
-                    input.attr('data-default-file', avatarUrl);
-                    input.dropify();
-                }
-            });
-
             // ------------------ Axios & jQuery Operations ------------------
 
             // Load / Refresh User Table
@@ -74,12 +25,17 @@
                 try {
                     let res = await axios.get(url, {
                         headers: {
-                            'Accept': 'application/json',
+                            'Accept': 'text/html',
                             'X-Requested-With': 'XMLHttpRequest'
                         }
                     });
-                    let newHtml = $(res.data).find('#user-table-container').html();
-                    $('#user-table-container').html(newHtml);
+                    // Use DOMParser to reliably parse the full HTML page
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(res.data, 'text/html');
+                    let container = doc.getElementById('user-table-container');
+                    if (container) {
+                        document.getElementById('user-table-container').innerHTML = container.innerHTML;
+                    }
                     window.history.pushState({ path: url }, '', url);
                 } catch (err) {
                     showToast("Failed to load user table.", "#f43f5e");
@@ -92,7 +48,10 @@
                 let formData = new FormData(this);
                 try {
                     let res = await axios.post($(this).attr('action'), formData, {
-                        headers: { 'Accept': 'application/json' }
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
                     });
                     if (res.data.success) {
                         $('#createUserModal').addClass('hidden').removeClass('flex');
@@ -115,7 +74,10 @@
                 let formData = new FormData(this);
                 try {
                     let res = await axios.post($(this).attr('action'), formData, {
-                        headers: { 'Accept': 'application/json' }
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
                     });
                     if (res.data.success) {
                         $('#editUserModal').addClass('hidden').removeClass('flex');
@@ -153,7 +115,10 @@
                     if (result.isConfirmed) {
                         try {
                             let res = await axios.post($(form).attr('action'), new FormData(form), {
-                                headers: { 'Accept': 'application/json' }
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                }
                             });
                             if (res.data.success) {
                                 showToast(res.data.message, "#22c55e");

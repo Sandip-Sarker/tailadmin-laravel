@@ -101,3 +101,32 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        $(document).ready(function() {
+            
+            // Open Create Modal
+            $(document).on('click', '.open-create-modal-btn', function() {
+                $('#createUserModal').removeClass('hidden').addClass('flex');
+                $('body').css('overflow', 'hidden');
+
+                if (typeof $.fn.dropify !== 'undefined') {
+                    var input = $('#create_avatar');
+                    var drEvent = input.data('dropify');
+                    if (drEvent) {
+                        drEvent.destroy();
+                    }
+                    input.dropify();
+                }
+            });
+
+            // Close Modals
+            $(document).on('click', '.close-modal-trigger', function() {
+                $('#createUserModal').addClass('hidden').removeClass('flex');
+                $('#editUserModal').addClass('hidden').removeClass('flex');
+                $('body').css('overflow', 'unset');
+            });
+        });
+    </script>
+    @endpush

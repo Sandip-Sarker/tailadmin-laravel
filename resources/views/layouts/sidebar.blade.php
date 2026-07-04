@@ -1,6 +1,7 @@
 @php
     use App\Helpers\MenuHelper;
-    $menuGroups = MenuHelper::getMenuGroups();
+    // $menuGroups = MenuHelper::getMenuGroups();
+    $menus = MenuHelper::getMainNavItems();
     $currentPath = request()->path();
 @endphp
 
@@ -23,126 +24,115 @@
         <nav class="mb-6">
             <div class="flex flex-col gap-4">
 
-                @foreach ($menuGroups as $groupIndex => $menuGroup)
-                    <div>
-                        {{-- Menu Group Title --}}
-                        <h2 class="mb-4 text-xs uppercase flex leading-[20px] text-gray-400 justify-start sidebar-group-title">
-                            <span class="sidebar-title-text">{{ $menuGroup['title'] }}</span>
-                            <span class="sidebar-title-dots" style="display:none;">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.99915 10.2451C6.96564 10.2451 7.74915 11.0286 7.74915 11.9951V12.0051C7.74915 12.9716 6.96564 13.7551 5.99915 13.7551C5.03265 13.7551 4.24915 12.9716 4.24915 12.0051V11.9951C4.24915 11.0286 5.03265 10.2451 5.99915 10.2451ZM17.9991 10.2451C18.9656 10.2451 19.7491 11.0286 19.7491 11.9951V12.0051C19.7491 12.9716 18.9656 13.7551 17.9991 13.7551C17.0326 13.7551 16.2491 12.9716 16.2491 12.0051V11.9951C16.2491 11.0286 17.0326 10.2451 17.9991 10.2451ZM13.7491 11.9951C13.7491 11.0286 12.9656 10.2451 11.9991 10.2451C11.0326 10.2451 10.2491 11.0286 10.2491 11.9951V12.0051C10.2491 12.9716 11.0326 13.7551 11.9991 13.7551C12.9656 13.7551 13.7491 12.9716 13.7491 12.0051V11.9951Z" fill="currentColor"/>
-                                </svg>
-                            </span>
-                        </h2>
+                <hr/>
+                <div>
+                    {{-- Menu Items --}}
+                    <ul class="flex flex-col gap-1">
+                        @foreach ($menus as $itemIndex => $item)
+                            <li>
+                                @if (isset($item['subItems']))
+                                    @php
+                                        $submenuOpen = MenuHelper::isSubmenuActive($item);
+                                        $submenuKey = 'menu-' . $itemIndex;
+                                    @endphp
 
-                        {{-- Menu Items --}}
-                        <ul class="flex flex-col gap-1">
-                            @foreach ($menuGroup['items'] as $itemIndex => $item)
-                                <li>
-                                    @if (isset($item['subItems']))
-                                        @php
-                                            $submenuOpen = MenuHelper::isSubmenuActive($item);
-                                            $submenuKey = $groupIndex . '-' . $itemIndex;
-                                        @endphp
+                                    {{-- Menu Item with Submenu --}}
+                                    <button
+                                        type="button"
+                                        onclick="toggleSubmenu('{{ $submenuKey }}')"
+                                        data-submenu-key="{{ $submenuKey }}"
+                                        class="menu-item group w-full {{ $submenuOpen ? 'menu-item-active' : 'menu-item-inactive' }}">
 
-                                        {{-- Menu Item with Submenu --}}
-                                        <button
-                                            type="button"
-                                            onclick="toggleSubmenu('{{ $submenuKey }}')"
-                                            data-submenu-key="{{ $submenuKey }}"
-                                            class="menu-item group w-full {{ $submenuOpen ? 'menu-item-active' : 'menu-item-inactive' }}">
+                                        {{-- Icon --}}
+                                        <span class="{{ $submenuOpen ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}">
+                                            {!! MenuHelper::getIconSvg($item['icon']) !!}
+                                        </span>
 
-                                            {{-- Icon --}}
-                                            <span class="{{ $submenuOpen ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}">
-                                                {!! MenuHelper::getIconSvg($item['icon']) !!}
-                                            </span>
+                                        {{-- Text --}}
+                                        <span class="menu-item-text flex items-center gap-2 sidebar-text-label">
+                                            {{ $item['name'] }}
+                                            @if (!empty($item['new']))
+                                                <span class="absolute right-10 menu-dropdown-badge {{ $submenuOpen ? 'menu-dropdown-badge-active' : 'menu-dropdown-badge-inactive' }}">
+                                                    new
+                                                </span>
+                                            @endif
+                                        </span>
 
-                                            {{-- Text --}}
-                                            <span class="menu-item-text flex items-center gap-2 sidebar-text-label">
-                                                {{ $item['name'] }}
-                                                @if (!empty($item['new']))
-                                                    <span class="absolute right-10 menu-dropdown-badge {{ $submenuOpen ? 'menu-dropdown-badge-active' : 'menu-dropdown-badge-inactive' }}">
-                                                        new
-                                                    </span>
-                                                @endif
-                                            </span>
+                                        {{-- Chevron Icon --}}
+                                        <svg id="chevron-{{ $submenuKey }}"
+                                            class="ml-auto w-5 h-5 transition-transform duration-200 sidebar-text-label {{ $submenuOpen ? 'rotate-180 text-brand-500' : '' }}"
+                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </button>
 
-                                            {{-- Chevron Icon --}}
-                                            <svg id="chevron-{{ $submenuKey }}"
-                                                class="ml-auto w-5 h-5 transition-transform duration-200 sidebar-text-label {{ $submenuOpen ? 'rotate-180 text-brand-500' : '' }}"
-                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                            </svg>
-                                        </button>
+                                    {{-- Submenu --}}
+                                    <div id="submenu-{{ $submenuKey }}" style="{{ $submenuOpen ? '' : 'display:none;' }}">
+                                        <ul class="mt-2 space-y-1 ml-9">
+                                            @foreach ($item['subItems'] as $subItem)
+                                                @php
+                                                    $subActive = MenuHelper::isActive($subItem['path']);
+                                                @endphp
+                                                <li>
+                                                    <a href="{{ $subItem['path'] }}"
+                                                        class="menu-dropdown-item {{ $subActive ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
 
-                                        {{-- Submenu --}}
-                                        <div id="submenu-{{ $submenuKey }}" style="{{ $submenuOpen ? '' : 'display:none;' }}">
-                                            <ul class="mt-2 space-y-1 ml-9">
-                                                @foreach ($item['subItems'] as $subItem)
-                                                    @php
-                                                        $subActive = MenuHelper::isActive($subItem['path']);
-                                                    @endphp
-                                                    <li>
-                                                        <a href="{{ $subItem['path'] }}"
-                                                            class="menu-dropdown-item {{ $subActive ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
+                                                        @if (!empty($subItem['icon']))
+                                                            <span class="{{ $subActive ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}">
+                                                                {!! MenuHelper::getIconSvg($subItem['icon']) !!}
+                                                            </span>
+                                                        @endif
 
-                                                            @if (!empty($subItem['icon']))
-                                                                <span class="{{ $subActive ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}">
-                                                                    {!! MenuHelper::getIconSvg($subItem['icon']) !!}
-                                                                </span>
-                                                            @endif
+                                                        <span>{{ $subItem['name'] }}</span>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @else
+                                    @php
+                                        if (isset($item['route'])) {
+                                            $routePrefix = preg_replace('/\.[^.]+$/', '', $item['route']);
+                                            $isActive = request()->routeIs($routePrefix . '.*') || request()->routeIs($item['route']);
+                                            $href = route($item['route']);
+                                        } else {
+                                            $isActive = MenuHelper::isActive($item['path']);
+                                            $href = $item['path'];
+                                        }
+                                    @endphp
 
-                                                            <span>{{ $subItem['name'] }}</span>
-                                                        </a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
+                                    {{-- Simple Menu Item --}}
+                                    <a href="{{ $href }}"
+                                        class="menu-item group {{ $isActive ? 'menu-item-active' : 'menu-item-inactive' }}">
 
-                                    @else
-                                        @php
-                                            if (isset($item['route'])) {
-                                                // Strip last segment (e.g. users.index -> users.*) so all sub-routes highlight
-                                                $routePrefix = preg_replace('/\.[^.]+$/', '', $item['route']);
-                                                $isActive = request()->routeIs($routePrefix . '.*') || request()->routeIs($item['route']);
-                                                $href = route($item['route']);
-                                            } else {
-                                                $isActive = MenuHelper::isActive($item['path']);
-                                                $href = $item['path'];
-                                            }
-                                        @endphp
+                                        {{-- Icon --}}
+                                        <span class="{{ $isActive ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}">
+                                            {!! MenuHelper::getIconSvg($item['icon']) !!}
+                                        </span>
 
-                                        {{-- Simple Menu Item --}}
-                                        <a href="{{ $href }}"
-                                            class="menu-item group {{ $isActive ? 'menu-item-active' : 'menu-item-inactive' }}">
-
-                                            {{-- Icon --}}
-                                            <span class="{{ $isActive ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}">
-                                                {!! MenuHelper::getIconSvg($item['icon']) !!}
-                                            </span>
-
-                                            {{-- Text --}}
-                                            <span class="menu-item-text flex items-center gap-2 sidebar-text-label">
-                                                {{ $item['name'] }}
-                                                @if (!empty($item['new']))
-                                                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-brand-500 text-white">
-                                                        new
-                                                    </span>
-                                                @endif
-                                            </span>
-                                        </a>
-                                    @endif
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endforeach
+                                        {{-- Text --}}
+                                        <span class="menu-item-text flex items-center gap-2 sidebar-text-label">
+                                            {{ $item['name'] }}
+                                            @if (!empty($item['new']))
+                                                <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-brand-500 text-white">
+                                                    new
+                                                </span>
+                                            @endif
+                                        </span>
+                                    </a>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
 
             </div>
         </nav>
 
+        
         {{-- Sidebar Widget --}}
         <div class="mx-auto mt-auto mb-10 w-full max-w-60 rounded-2xl bg-gray-50 px-4 py-5 text-center dark:bg-white/[0.03]">
+          
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-lg bg-brand-500 px-3 py-3 text-theme-sm font-medium text-white hover:bg-brand-600" aria-label="Logout">

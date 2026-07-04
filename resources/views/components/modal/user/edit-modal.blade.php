@@ -101,3 +101,44 @@
             </div>
         </div>
     </div>
+
+
+    @push('scripts')
+
+    <script>
+        // Open Edit Modal
+        $(document).on('click', '.open-edit-modal-btn', function() {
+            var user = $(this).data('user');
+
+            $('#edit_name').val(user.name);
+            $('#edit_email').val(user.email);
+            $('#edit_role').val(user.role || 'User');
+
+            var actionUrl = "{{ route('users.index') }}/" + user.id + "/update";
+            $('#editUserForm').attr('action', actionUrl);
+
+            var avatarUrl = user.avatar ? '{{ asset('storage') }}/' + user.avatar : '{{ asset('images/user/owner.jpg') }}';
+
+            $('#editUserModal').removeClass('hidden').addClass('flex');
+            $('body').css('overflow', 'hidden');
+
+            if (typeof $.fn.dropify !== 'undefined') {
+                var input = $('#edit_avatar');
+                var drEvent = input.data('dropify');
+                if (drEvent) {
+                    drEvent.destroy();
+                }
+                input.attr('data-default-file', avatarUrl);
+                input.dropify();
+            }
+        });
+
+        // Close Modals
+        $(document).on('click', '.close-modal-trigger', function() {
+            $('#createUserModal').addClass('hidden').removeClass('flex');
+            $('#editUserModal').addClass('hidden').removeClass('flex');
+            $('body').css('overflow', 'unset');
+        });
+    </script>
+
+    @endpush
