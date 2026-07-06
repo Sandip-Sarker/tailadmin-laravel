@@ -47,6 +47,24 @@ class DynamicPageController extends Controller
                 'updated_at' => now(),
             ]);
 
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Page updated successfully.'
+            ]);
+        }
+
         return redirect()->route('page-setting')->with('success', 'Page updated successfully.');
+    }
+
+    public function show(Request $request, $id)
+    {
+        $page = DB::table('dynamic_pages')->find($id);
+
+        if (! $page) {
+            return redirect()->route('page-setting')->with('error', 'Page not found.');
+        }
+
+        return view('pages.settings.page-setting-details', compact('page'));
     }
 }

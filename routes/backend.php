@@ -17,6 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/page-setting', [DynamicPageController::class, 'index'])->name('page-setting');
     Route::get('/page-setting/{id}/edit', [DynamicPageController::class, 'edit'])->name('page-setting.edit');
     Route::post('/page-setting/{id}/update', [DynamicPageController::class, 'update'])->name('page-setting.update');
+    Route::get('/page-setting/{id}/details', [DynamicPageController::class, 'show'])->name('page-setting.show');
 
     // User Route
     Route::prefix('users')->name('users.')->group(function () {

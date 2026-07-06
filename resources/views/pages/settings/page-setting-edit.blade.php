@@ -54,7 +54,7 @@
 
                 <div>
                     <label class="text-sm font-medium text-gray-900 dark:text-white">Page Content</label>
-                    <textarea name="page_content" rows="8"
+                    <textarea id="edit_page_content_page" name="page_content" rows="8"
                         class="mt-2 w-full rounded-3xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-200 dark:focus:border-brand-400 dark:focus:ring-brand-500/20">{{ old('page_content', $page->page_content) }}</textarea>
                     @error('page_content')
                         <p class="mt-2 text-sm text-rose-600">{{ $message }}</p>
@@ -85,3 +85,19 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <!-- CKEditor 5 CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            ClassicEditor
+                .create(document.querySelector('#edit_page_content_page'), {
+                    toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo' ]
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
+@endpush

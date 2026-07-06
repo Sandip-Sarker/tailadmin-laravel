@@ -65,7 +65,7 @@
             </form>
 
             <button type="button"
-                class="open-create-modal-btn shadow-theme-xs flex h-[42px] items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600">
+                class="open-create-modal-btn shadow-theme-xs flex h-[42px] items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:shadow-lg hover:shadow-blue-500/50">
                 <svg class="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8.00016 3.33334V12.6667M3.3335 8.00001H12.6668" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>

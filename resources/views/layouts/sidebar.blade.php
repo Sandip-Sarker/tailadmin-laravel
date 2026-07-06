@@ -24,7 +24,7 @@
         <nav class="mb-6">
             <div class="flex flex-col gap-4">
 
-                <hr/>
+                <div class="border-b border-gray-200 dark:border-gray-800"></div>
                 <div>
                     {{-- Menu Items --}}
                     <ul class="flex flex-col gap-1">
